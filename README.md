@@ -1,0 +1,2 @@
+# random
+Simple CLI multitool
