@@ -1,0 +1,11 @@
+[package]
+name = "random"
+version = "0.1.0"
+edition = "2021"
+authors = ["one-d-wide <one-d-wide@protonmail.com>"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/one-d-wide/random"
+
+[dependencies]
+clap = { version = "4.0", features = [ "derive" ] }
+rand = { version = "0.8", features = [ "std_rng" ] }
