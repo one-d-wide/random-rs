@@ -1,47 +1,81 @@
-use crate::settings::Settings;
+use super::common::*;
 
-use std::{
-    io::{Error, ErrorKind, Write},
-    os::unix::ffi::OsStrExt,
-};
+#[derive(Debug, Parser)]
+pub struct Subcommand {
+    #[clap(value_name = "min")]
+    pub min: f64,
+    #[clap(value_name = "max")]
+    pub max: f64,
+    #[clap(value_name = "length")]
+    pub length: usize,
+    #[clap(
+        short,
+        long,
+        help = "set an output delimiter sequence",
+        value_name = "delimiter",
+        default_value = ", "
+    )]
+    pub delimiter: String,
+    #[clap(
+        short,
+        long,
+        help = "set an output precision",
+        value_name = "precision"
+    )]
+    pub float: Option<usize>,
+    #[clap(
+        short,
+        long,
+        help = "print all numbers with the same width",
+        value_name = "pretty",
+        default_value = "false"
+    )]
+    pub pretty: bool,
+    #[clap(short, help = "do not print new line", num_args = 0)]
+    pub no_newline: bool,
+    #[clap(
+        short,
+        long,
+        help = "print output to file",
+        value_name = "path",
+        default_value = "-"
+    )]
+    pub output: PathBuf,
+    #[clap(long, help = "get raw random from file", value_name = "path")]
+    pub seed: Option<PathBuf>,
+}
 
-use rand::distributions::{Distribution, Uniform};
-
-pub fn array(settings: Settings) -> Result<(), Error> {
-    if let Settings::Array {
-        start,
-        end,
+pub fn subcommand(
+    Subcommand {
+        min,
+        max,
         length,
-        separator,
+        delimiter,
         float,
+        pretty,
         no_newline,
         output,
         seed,
-    } = settings
-    {
-        let mut output = super::common::init_o(output, length)?;
+    }: Subcommand,
+) -> Result<()> {
+    let range = new_uniform(min, max)?;
+    let float = float.unwrap_or(0);
 
-        if end == start {
-            return Err(Error::new(ErrorKind::InvalidInput, "Given range is empty"));
+    let max_number_width = max_number_width_if(pretty, min, max, float);
+
+    let mut output = new_writer(output)?;
+    let mut random = new_seed(seed)?;
+
+    for column in 0..length {
+        if column != 0 {
+            output.write_all(delimiter.as_bytes())?;
         }
-        let range = Uniform::from(if start < end { start..end } else { end..start });
-        let float = if let Some(n) = float { n } else { 0 };
-        let separator = separator.as_os_str().as_bytes();
-
-        let mut random = super::common::init_seed(seed)?;
-
-        for i in 0..length {
-            if i != 0 {
-                output.write_all(separator)?;
-            }
-            write!(output, "{:.*}", float, range.sample(&mut random))?;
-        }
-        if !no_newline {
-            output.write_all("\n".as_bytes())?;
-        };
-
-        Ok(())
-    } else {
-        unreachable!();
+        let random = range.sample(&mut random);
+        write!(output, "{random:>max_number_width$.float$}")?;
     }
+    if !no_newline {
+        output.write_all(b"\n")?;
+    };
+
+    Ok(())
 }

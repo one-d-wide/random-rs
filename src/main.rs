@@ -1,46 +1,32 @@
-mod array;
 mod common;
+mod config;
 mod error;
-mod settings;
+
+mod array;
+mod custom_matrix;
+mod matrix;
+mod range;
 mod string;
 mod version;
 
-use settings::{parse, Settings};
-
 fn main() -> Result<(), error::CustomError> {
-    let settings = match parse() {
-        Err(e) => {
-            print!("{}", e);
+    let config = match self::config::parse() {
+        Err(err) => {
+            print!("{}", err);
             std::process::exit(1)
         }
         Ok(None) => return Ok(()),
-        Ok(Some(s)) => s,
+        Ok(Some(config)) => config,
     };
 
-    match settings {
-        Settings::Range {
-            start,
-            end,
-            float,
-            no_newline,
-            output,
-            seed,
-        } => {
-            array::array(Settings::Array {
-                start,
-                end,
-                float,
-                no_newline,
-                output,
-                seed,
-                length: 1,
-                separator: std::ffi::OsString::new(),
-            })?;
-        }
-        Settings::Array { .. } => array::array(settings)?,
-        Settings::String { .. } => string::string(settings)?,
-        Settings::Version { .. } => version::version(),
-    }
-
-    Ok(())
+    use self::config::Config::*;
+    let result = match config {
+        Range(config) => self::range::subcommand(config),
+        Array(config) => self::array::subcommand(config),
+        String(config) => self::string::subcommand(config),
+        Matrix(config) => self::matrix::subcommand(config),
+        CustomMatrix(config) => self::custom_matrix::subcommand(config),
+        Version(config) => self::version::subcommand(config),
+    };
+    Ok(result?)
 }

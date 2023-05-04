@@ -1,7 +1,8 @@
 use std::{
     convert::From,
-    error::Error,
+    error::Error as ErrorTrait,
     fmt::{Debug, Formatter, Result, Write},
+    io::{Error, ErrorKind},
 };
 
 pub struct CustomError(String);
@@ -12,9 +13,9 @@ impl Debug for CustomError {
     }
 }
 
-impl From<std::io::Error> for CustomError {
-    fn from(err: std::io::Error) -> Self {
-        let mut ret = Self(if err.kind() == std::io::ErrorKind::InvalidInput {
+impl From<Error> for CustomError {
+    fn from(err: Error) -> Self {
+        let mut ret = Self(if err.kind() == ErrorKind::Other {
             err.to_string()
         } else {
             format!("({}): {}", err.kind(), err)
@@ -25,10 +26,3 @@ impl From<std::io::Error> for CustomError {
         ret
     }
 }
-
-// // Uniform error handling
-// impl<T: std::error::Error> From<T> for CustomError {
-//     fn from(err: T) -> Self {
-//         Self(format!("{}", err.to_string()))
-//     }
-// }
