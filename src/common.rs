@@ -14,34 +14,30 @@ pub use {
     },
 };
 
-pub fn some_or_default<T: PartialEq<&'static Path>, D: Into<T>>(path: T, default: D) -> T {
-    if path == Path::new("-") {
-        default.into()
-    } else {
-        path
+pub fn new_reader(path: PathBuf) -> Result<BufReader<Box<dyn Read>>> {
+    if path.as_path() == Path::new("-") {
+        return Ok(BufReader::new(Box::new(std::io::stdin())));
     }
-}
-
-pub fn new_reader(input: PathBuf) -> Result<BufReader<File>> {
-    let path = some_or_default(input, "/dev/stdin");
     let file = std::fs::OpenOptions::new()
         .read(true)
         .write(false)
         .append(false)
         .create(false)
         .open(path)?;
-    Ok(BufReader::new(file))
+    Ok(BufReader::new(Box::new(file)))
 }
 
-pub fn new_writer(output: PathBuf) -> Result<BufWriter<File>> {
-    let path = some_or_default(output, "/dev/stdout");
+pub fn new_writer(path: PathBuf) -> Result<BufWriter<Box<dyn Write>>> {
+    if path.as_path() == Path::new("-") {
+        return Ok(BufWriter::new(Box::new(std::io::stdout())));
+    }
     let file = std::fs::OpenOptions::new()
         .read(false)
         .write(true)
         .append(true)
         .create(true)
         .open(path)?;
-    Ok(BufWriter::new(file))
+    Ok(BufWriter::new(Box::new(file)))
 }
 
 pub fn new_seed(input: Option<PathBuf>) -> Result<StdRng> {
