@@ -2,27 +2,38 @@
 Generate random numbers from CLI
 
 ## Usage
-```shell
-# Quick range # [<min>] <max>
-$ random 100
+
+**Quick range:** \[min\] \<max\>
+```fish
+$ random 100 # min = 0
 42
+$ random 0 1 --float 6
+0.728097
+```
 
-$ random 60 50 --float 2
-57.06
+**Range:** -R \<min\> \<max\>
+```fish
+$ random -R -- -100 100
+-71
+```
 
-# Range # -R <min> <max>
-$ random -R -- 10 -10
--4
-
-# Array # -A <min> <max> <length>
+**Array:** -A \<min\> \<max\> \<length\>
+```fish
 $ random -A 0 100 4 --pretty
  74,  38,   8,  51
+```
 
-# String # -S <letters> <length>
+**String:** -S \<letters\> \<length\>
+```fish
 $ random -S '0,1' 8 --delimiter ''
 01110100
+$ random -S 'a,b,c,d' --shuffle
+d, c, a, b
+```
 
-# Matrix # -M <min> <max> <columns> <rows>
+
+**Matrix:** -M \<min\> \<max\> \<columns\> \<rows\>
+```fish
 $ random -M 0 100 4 4 --pretty
 [
  16,  48,   2,  97;
@@ -38,15 +49,18 @@ $ random -M 0 100 4 4 --pretty --type diagonal
   0,   0,   3,   0;
   0,   0,   0,  98;
 ]
+```
 
-# Custom matrix # -C <min> <max> <columns> <rows> <begin> <row_begin> <delimiter> <row_end> <end>
+**Custom matrix:** -C \<min\> \<max\> \<columns\> \<rows\> \<begin\> \<row_begin\> \<delimiter\> \<row_end\> \<end\>
+```fish
 $ random -C 0 1 4 4 "[" " [" "," "]," " ]"
 [ [0,1,0,0], [1,1,0,1], [0,0,0,1], [1,0,1,0], ]
 ```
 
 ## Instalation
-- <img src="https://www.monitorix.org/imgs/archlinux.png" weight="20" height="20"> **Arch Linux**: from [AUR](https://aur.archlinux.org/packages/random-rs)
-- **Manual**
+- <img src="https://www.monitorix.org/imgs/archlinux.png" weight="20" height="20"> **Arch Linux**: From [AUR](https://aur.archlinux.org/packages/random-rs).
+- **Static executable**: Check the [Releases](https://github.com/one-d-wide/random-rs/releases) page.
+- **Manual**.
   ```shell
   git clone https://github.com/one-d-wide/random-rs.git
   cd random-rs
