@@ -3,26 +3,27 @@ Generate random numbers from CLI
 
 ## Usage
 ```shell
-# quick range # [<min>] <max>
-$ random-rs 100
+# Quick range # [<min>] <max>
+$ random 100
 42
-$ random-rs 60 50 --float 2
+
+$ random 60 50 --float 2
 57.06
 
-# range # -R <min> <max>
-$ random-rs -R -- 10 -10
+# Range # -R <min> <max>
+$ random -R -- 10 -10
 -4
 
-# array # -A <min> <max> <length>
-$ random-rs -A 0 100 4 --pretty
+# Array # -A <min> <max> <length>
+$ random -A 0 100 4 --pretty
  74,  38,   8,  51
 
-# string # -S <letters> <length>
-$ random-rs -S '0,1' 8 --delimiter ''
+# String # -S <letters> <length>
+$ random -S '0,1' 8 --delimiter ''
 01110100
 
-# matrix # -M <min> <max> <columns> <rows>
-$ random-rs -M 0 100 4 4 --pretty
+# Matrix # -M <min> <max> <columns> <rows>
+$ random -M 0 100 4 4 --pretty
 [
  16,  48,   2,  97;
  88,  69,  13,  85;
@@ -30,8 +31,16 @@ $ random-rs -M 0 100 4 4 --pretty
   6, 100,  42,  96;
 ]
 
-# custom matrix # -C <min> <max> <columns> <rows> <begin> <row_begin> <column_delimiter> <row_end> <end>
-$ random-rs -C 0 1 4 4 "[" " [" "," "]," " ]"
+$ random -M 0 100 4 4 --pretty --type diagonal
+[
+ 11,   0,   0,   0;
+  0,  83,   0,   0;
+  0,   0,   3,   0;
+  0,   0,   0,  98;
+]
+
+# Custom matrix # -C <min> <max> <columns> <rows> <begin> <row_begin> <delimiter> <row_end> <end>
+$ random -C 0 1 4 4 "[" " [" "," "]," " ]"
 [ [0,1,0,0], [1,1,0,1], [0,0,0,1], [1,0,1,0], ]
 ```
 

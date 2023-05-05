@@ -15,7 +15,7 @@ pub struct Subcommand {
     pub begin: String,
     #[clap(value_name = "row_begin")]
     pub row_begin: String,
-    #[clap(value_name = "column_delimiter")]
+    #[clap(value_name = "delimiter")]
     pub delimiter: String,
     #[clap(value_name = "row_end")]
     pub row_end: String,

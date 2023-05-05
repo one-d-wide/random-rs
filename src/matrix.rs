@@ -14,7 +14,7 @@ pub struct Subcommand {
         short,
         long,
         help = "set an column delimiter sequence",
-        value_name = "column_delimiter",
+        value_name = "delimiter",
         default_value = ", "
     )]
     pub delimiter: String,
