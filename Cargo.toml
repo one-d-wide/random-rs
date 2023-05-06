@@ -1,6 +1,6 @@
 [package]
 name = "random-rs"
-version = "0.2.0"
+version = "0.2.4"
 edition = "2021"
 authors = ["one-d-wide <one-d-wide@protonmail.com>"]
 license = "GPL-3.0-or-later"

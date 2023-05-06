@@ -89,7 +89,7 @@ jobs:
         run: |
           nix build .#
           result/bin/random 0 1
-          rm result
+          rm flake.lock result
       - name: Commit update
         run: |
           git add flake.nix
