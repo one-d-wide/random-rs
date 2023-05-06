@@ -2,3 +2,5 @@
 /Cargo.lock
 /random-rs
 /.vscode
+/result
+/flake.lock
