@@ -68,32 +68,3 @@ jobs:
         with:
           draft: true
           files: "${{ github.event.repository.name }}-${{ matrix.output_target }}${{ matrix.output_postfix }}"
-
-  update-flake-checksum:
-    name: Update flake checksum
-    needs: release
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: "main"
-      - uses: cachix/install-nix-action@v20
-      - name: Update checksums
-        run: |
-          for url in $(grep -oP 'https://.*?\?' flake.nix)
-          do
-            CHECKSUM="$(curl -L -o - "$url" | sha256sum | grep -o '[A-Za-z0-9]*')"
-            sed -i "s#\"$url\?.*\"#\"$url$CHECKSUM\"#" flake.nix
-          done
-      - name: Try build
-        run: |
-          nix build .#
-          result/bin/random 0 1
-          rm result
-      - name: Commit update
-        run: |
-          git add flake.nix flake.lock
-          git config --global user.name 'Checksum updater'
-          git config --global user.email 'checksum-updater@checksum-updater'
-          git commit -m 'Automated checksum update'
-          git push origin main
