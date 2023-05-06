@@ -4,8 +4,8 @@
   outputs = { self, nixpkgs }:
     let
       systems = {
-        "x86_64-linux" = "https://github.com/one-d-wide/random-rs/releases/download/v0.2.2/random-rs-linux-x86_64?2021529cc4d4fadcc31cdecce83ecf58281f370c293258d2e1fa476752a0dc39";
-        "aarch64-linux" = "https://github.com/one-d-wide/random-rs/releases/download/v0.2.2/random-rs-linux-aarch64?01431934b062e31fb691fbf724fb2bf82675cb6b78f8c94d9ff362202c9f1113";
+        "x86_64-linux" = "https://github.com/one-d-wide/random-rs/releases/download/v0.2.4/random-rs-linux-x86_64?10bb7d41b241fba516acee4fbfedca23b28e0c7d49c26c5d3389cc317919341e";
+        "aarch64-linux" = "https://github.com/one-d-wide/random-rs/releases/download/v0.2.4/random-rs-linux-aarch64?f1c91bdc24270978fc6c382fa4de6d6f6fe50377f2b4b7d1c15d3e0f707a686b";
       };
       lib = nixpkgs.lib;
     in
