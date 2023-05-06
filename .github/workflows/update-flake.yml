@@ -22,7 +22,7 @@ jobs:
         run: |
           for url in $(grep -oP 'https://.*?\?' flake.nix)
           do
-            new_url="$(echo "$url" | sed 's#\(latest\|v[0-9]*\.[0-9]*\.[0-9]*\)#${{ github.event.release.tag_name }}#')"
+            new_url="$(echo "$url" | sed 's#v[0-9]*\.[0-9]*\.[0-9]*#${{ github.event.release.tag_name }}#')"
             hash="$(curl -L -o - "$new_url" | sha256sum | grep -o '[A-Za-z0-9]*')"
             sed -i "s#\"$url\?.*\"#\"$new_url$hash\"#" flake.nix
           done
