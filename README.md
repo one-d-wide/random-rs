@@ -59,7 +59,7 @@ $ random -C 0 1 4 4 "[" " [" "," "]," " ]"
 
 ## Instalation
 - <img src="https://www.monitorix.org/imgs/archlinux.png" weight="20" height="20"> **Arch Linux**: From [AUR](https://aur.archlinux.org/packages/random-rs).
-- <img src="https://nixos.org/logo/nixos-logo-only-hires.png" weight="20" height="20"> **NixOS**: `nix run github:one-d-wide/random-rs#random-rs`
+- <img src="https://nixos.org/logo/nixos-logo-only-hires.png" weight="20" height="20"> **NixOS**: `nix run github:one-d-wide/random-rs#random`
 - **Static executable**: Check the [Releases](https://github.com/one-d-wide/random-rs/releases) page.
 - **Manual**.
   ```shell

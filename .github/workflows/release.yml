@@ -89,10 +89,10 @@ jobs:
         run: |
           nix build .#
           result/bin/random 0 1
-          rm flake.lock result
+          rm result
       - name: Commit update
         run: |
-          git add flake.nix
+          git add flake.nix flake.lock
           git config --global user.name 'Checksum updater'
           git config --global user.email 'checksum-updater@checksum-updater'
           git commit -m 'Automated checksum update'

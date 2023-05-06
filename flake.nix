@@ -19,6 +19,7 @@
             in
             rec {
               default = random-rs;
+              random = random-rs;
               random-rs = pkgs.stdenv.mkDerivation {
                 name = "random-rs";
                 src = pkgs.fetchurl { url = lib.head pair; outputHashAlgo = "sha256"; outputHash = lib.tail pair; };
